@@ -10,6 +10,14 @@ To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.setup`
+    * Accept option to build local versions of dependencies (if any)
+    * If you run into the error `role "postgres" does not exist` at the end of the setup script, you'll need to start
+    postgres on your local machine and create this user (brew install creates a default user based on your current
+    username):
+        1. Start local postgres `postgres -D /usr/local/var/postgres &`
+        2. Connect to process as default user `psql`
+        3. Once you're in an interactive session run `CREATE USER postgres SUPERUSER; CREATE DATABASE postgres WITH OWNER postgres;`
+        4. Exit the interactive shell and rerun `mix ecto.setup`
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:8000`](http://localhost:8000) from your browser.

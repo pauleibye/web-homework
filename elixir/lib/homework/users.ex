@@ -37,6 +37,22 @@ defmodule Homework.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_users_fuzzy(first_name, _last_name) do
+    fuzziness = 5
+#    query = "select * from users where levenshtein(first_name, $1) <= $2"
+#    Repo.query(query, [first_name, fuzziness])
+
+    query = from u in User,
+                 where:
+                   fragment(
+                     "levenshtein(?, ?)",
+                     u.first_name,
+                     ^first_name
+                   ) <= ^fuzziness
+
+    Repo.all(query)
+  end
+
   @doc """
   Creates a user.
 

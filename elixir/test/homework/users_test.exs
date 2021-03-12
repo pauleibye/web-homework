@@ -68,5 +68,10 @@ defmodule Homework.UsersTest do
       user = user_fixture()
       assert %Ecto.Changeset{} = Users.change_user(user)
     end
+
+    test "get_users_fuzzy/return users within a levenshtein distance based on first and last name" do
+      user = user_fixture()
+      assert [user] == Users.get_users_fuzzy("some first_name", "some last_name")
+    end
   end
 end

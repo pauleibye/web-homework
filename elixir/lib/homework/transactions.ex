@@ -37,6 +37,16 @@ defmodule Homework.Transactions do
   """
   def get_transaction!(id), do: Repo.get!(Transaction, id)
 
+  # TODO parameter to choose to query for inserted_at or updated_at
+  # TODO maybe single macro for searching, but 2 different methods
+  def get_transactions_time_range(start_date_time, end_date_time) do
+    query = from t in Transaction,
+      where:  t.inserted_at >= ^start_date_time,
+      where:  t.inserted_at < ^end_date_time
+
+    Repo.all(query)
+  end
+
   @doc """
   Creates a transaction.
 

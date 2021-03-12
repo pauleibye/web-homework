@@ -1,4 +1,5 @@
 defmodule Homework.TransactionsTest do
+  import DateTime
   use Homework.DataCase
 
   alias Ecto.UUID
@@ -151,6 +152,13 @@ defmodule Homework.TransactionsTest do
     test "change_transaction/1 returns a transaction changeset", %{valid_attrs: valid_attrs} do
       transaction = transaction_fixture(valid_attrs)
       assert %Ecto.Changeset{} = Transactions.change_transaction(transaction)
+    end
+
+    test "get_transactions_time_range/? returns transactions within parameter time range", %{valid_attrs: valid_attrs} do
+      transaction = transaction_fixture(valid_attrs)
+      search_start = NaiveDateTime.utc_now() |> NaiveDateTime.add(-3600)
+      search_end = NaiveDateTime.utc_now() |> NaiveDateTime.add(3600)
+      assert [transaction] = Transactions.get_transactions_time_range(search_start, search_end)
     end
   end
 end

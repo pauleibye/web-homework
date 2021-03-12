@@ -3,6 +3,9 @@ defmodule Homework.Users do
   The Users context.
   """
 
+  import Homework.FuzzySearchHelper
+#  alias Homework.FuzzySearchHelper, as: FSH
+
   import Ecto.Query, warn: false
   alias Homework.Repo
 
@@ -37,18 +40,19 @@ defmodule Homework.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
-  def get_users_fuzzy(first_name, _last_name) do
-    fuzziness = 5
-#    query = "select * from users where levenshtein(first_name, $1) <= $2"
-#    Repo.query(query, [first_name, fuzziness])
-
+  # TODO doc stuff
+  def get_users_fuzzy(to_query, fuzziness) do
+    # TODO call levenshtein function once and store as a row, then use to order (rather than 4 calls), then map to user
     query = from u in User,
-                 where:
-                   fragment(
-                     "levenshtein(?, ?)",
-                     u.first_name,
-                     ^first_name
-                   ) <= ^fuzziness
+                  where:
+                    levenshtein(u.first_name, ^to_query, ^fuzziness) or
+                    levenshtein(u.last_name, ^to_query, ^fuzziness),
+                  order_by:
+                    fragment(
+                      "least(?, ?)",
+                      levenshtein(u.first_name, ^to_query),
+                      levenshtein(u.last_name, ^to_query)
+                    )
 
     Repo.all(query)
   end

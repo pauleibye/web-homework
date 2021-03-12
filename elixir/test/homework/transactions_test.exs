@@ -84,6 +84,7 @@ defmodule Homework.TransactionsTest do
 
     test "list_transactions/1 returns all transactions", %{valid_attrs: valid_attrs} do
       transaction = transaction_fixture(valid_attrs)
+      IO.inspect(transaction)
       assert Transactions.list_transactions([]) == [transaction]
     end
 
@@ -99,7 +100,7 @@ defmodule Homework.TransactionsTest do
     } do
       assert {:ok, %Transaction{} = transaction} = Transactions.create_transaction(valid_attrs)
       assert transaction.amount == 42
-      assert transaction.credit == true
+      assert transaction.credit == false
       assert transaction.debit == true
       assert transaction.description == "some description"
       assert transaction.merchant_id == merchant1.id

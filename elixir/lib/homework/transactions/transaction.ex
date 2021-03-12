@@ -8,7 +8,7 @@ defmodule Homework.Transactions.Transaction do
   schema "transactions" do
     field(:amount, :integer)
     field(:credit, :boolean, default: false)
-    field(:debit, :boolean, default: false)
+    field(:debit, :boolean, default: false) # TODO should one of these be default true?
     field(:description, :string)
 
     belongs_to(:merchant, Merchant, type: :binary_id, foreign_key: :merchant_id)

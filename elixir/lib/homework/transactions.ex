@@ -37,6 +37,8 @@ defmodule Homework.Transactions do
   """
   def get_transaction!(id), do: Repo.get!(Transaction, id)
 
+  # TODO method to get all transactions for a merchant, user, etc
+
   # TODO parameter to choose to query for inserted_at or updated_at
   # TODO maybe single macro for searching, but 2 different methods
   def get_transactions_time_range(start_date_time, end_date_time) do

@@ -40,6 +40,14 @@ defmodule Homework.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  # TODO test (one and multiple) and doc
+  def get_users_where_name!(first_name, last_name) do
+    query = from m in Users,
+                 where: m.first_name == ^first_name,
+                 where: m.last_name == ^last_name
+    Repo.all(query)
+  end
+
   # TODO doc stuff
   def get_users_fuzzy(to_query, fuzziness) do
     # TODO call levenshtein function once and store as a row, then use to order (rather than 4 calls), then map to user

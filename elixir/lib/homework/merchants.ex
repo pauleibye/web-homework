@@ -39,6 +39,13 @@ defmodule Homework.Merchants do
   """
   def get_merchant!(id), do: Repo.get!(Merchant, id)
 
+  # TODO test (one and multiple) and doc
+  def get_merchants_where_name!(name) do
+    query = from m in Merchant,
+      where: m.name == ^name
+    Repo.all(query)
+  end
+
   # TODO doc stuff
   def get_merchants_fuzzy(to_query, fuzziness) do
     # TODO call levenshtein function once and store as a row, then use to order (rather than 2 calls), then map to user

@@ -49,6 +49,14 @@ defmodule Homework.Transactions do
     Repo.all(query)
   end
 
+  # TODO doc
+  def get_transactions_amount_range(min, max) do
+    query = from t in Transaction,
+      where: t.amount >= ^min,
+      where: t.amount < ^max
+    Repo.all(query)
+  end
+
   @doc """
   Creates a transaction.
 

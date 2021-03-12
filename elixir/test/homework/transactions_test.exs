@@ -161,5 +161,10 @@ defmodule Homework.TransactionsTest do
       search_end = NaiveDateTime.utc_now() |> NaiveDateTime.add(3600)
       assert [transaction] = Transactions.get_transactions_time_range(search_start, search_end)
     end
+
+    test "get_transactions_amount_range/? returns transactions within parameter amount range", %{valid_attrs: valid_attrs} do
+      transaction = transaction_fixture(valid_attrs)
+      assert [transaction] = Transactions.get_transactions_amount_range(40, 43)
+    end
   end
 end

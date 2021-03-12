@@ -3,6 +3,8 @@ defmodule Homework.Merchants do
   The Merchants context.
   """
 
+  import Homework.FuzzySearchHelper
+
   import Ecto.Query, warn: false
   alias Homework.Repo
 
@@ -36,6 +38,15 @@ defmodule Homework.Merchants do
 
   """
   def get_merchant!(id), do: Repo.get!(Merchant, id)
+
+  # TODO doc stuff
+  def get_merchants_fuzzy(to_query, fuzziness) do
+    # TODO call levenshtein function once and store as a row, then use to order (rather than 2 calls), then map to user
+    query = from m in Merchant,
+                 where: levenshtein(m.name, ^to_query, ^fuzziness),
+                 order_by: levenshtein(m.name, ^to_query)
+    Repo.all(query)
+  end
 
   @doc """
   Creates a merchant.

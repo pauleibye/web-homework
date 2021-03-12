@@ -65,5 +65,10 @@ defmodule Homework.MerchantsTest do
       merchant = merchant_fixture()
       assert %Ecto.Changeset{} = Merchants.change_merchant(merchant)
     end
+
+    test "get_merchants_fuzzy/return merchants within a levenshtein distance based on name" do
+      merchant = merchant_fixture()
+      assert [merchant] == Merchants.get_merchants_fuzzy("some name", 5)
+    end
   end
 end

@@ -27,8 +27,4 @@ defmodule Homework.Transactions.Transaction do
     |> cast(attrs, [:user_id, :amount, :debit, :credit, :description, :merchant_id, :company_id])
     |> validate_required([:user_id, :amount, :description, :merchant_id, :company_id])
   end
-
-  def convert_amount_to_cents(transaction) when is_float(transaction.amount) do
-
-  end
 end

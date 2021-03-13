@@ -41,7 +41,7 @@ defmodule Homework.TransactionsTest do
       valid_attrs = %{
         amount: 0.42,
         credit: true,
-        debit: true,
+        debit: false,
         description: "some description",
         merchant_id: merchant1.id,
         user_id: user1.id,
@@ -50,7 +50,7 @@ defmodule Homework.TransactionsTest do
 
       update_attrs = %{
         amount: 0.43,
-        credit: false,
+        credit: true,
         debit: false,
         description: "some updated description",
         merchant_id: merchant2.id,
@@ -81,12 +81,12 @@ defmodule Homework.TransactionsTest do
     end
 
     def transaction_fixture(valid_attrs, attrs \\ %{}) do
-      {:ok, transaction} =
+      {:ok, transaction_created} =
         attrs
         |> Enum.into(valid_attrs)
         |> Transactions.create_transaction()
 
-      transaction
+      Transactions.get_transaction!(transaction_created.id)
     end
 
     test "list_transactions/1 returns all transactions", %{valid_attrs: valid_attrs} do
@@ -105,9 +105,9 @@ defmodule Homework.TransactionsTest do
       user1: user1
     } do
       assert {:ok, %Transaction{} = transaction} = Transactions.create_transaction(valid_attrs)
-      assert transaction.amount == 0.42
-      assert transaction.credit == false
-      assert transaction.debit == true
+      assert transaction.amount == 42
+      assert transaction.credit == true
+      assert transaction.debit == false
       assert transaction.description == "some description"
       assert transaction.merchant_id == merchant1.id
       assert transaction.user_id == user1.id
@@ -130,8 +130,8 @@ defmodule Homework.TransactionsTest do
       assert {:ok, %Transaction{} = transaction} =
                Transactions.update_transaction(transaction, update_attrs)
 
-      assert transaction.amount == 0.43
-      assert transaction.credit == false
+      assert transaction.amount == 43
+      assert transaction.credit == true
       assert transaction.debit == false
       assert transaction.description == "some updated description"
       assert transaction.merchant_id == merchant2.id
@@ -165,12 +165,13 @@ defmodule Homework.TransactionsTest do
       transaction = transaction_fixture(valid_attrs)
       search_start = NaiveDateTime.utc_now() |> NaiveDateTime.add(-3600)
       search_end = NaiveDateTime.utc_now() |> NaiveDateTime.add(3600)
-      assert [transaction] = Transactions.get_transactions_time_range(search_start, search_end)
+      assert [transaction] == Transactions.get_transactions_time_range(search_start, search_end)
     end
 
     test "get_transactions_amount_range/? returns transactions within parameter amount range", %{valid_attrs: valid_attrs} do
       transaction = transaction_fixture(valid_attrs)
-      assert [transaction] = Transactions.get_transactions_amount_range(0.40, 0.43)
+      assert [transaction] == Transactions.get_transactions_amount_range(0.40, 0.43)
+      assert [] == Transactions.get_transactions_amount_range(0.00, 0.01)
     end
   end
 end

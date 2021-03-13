@@ -4,10 +4,12 @@ defmodule Homework.Transactions.Transaction do
   alias Homework.Merchants.Merchant
   alias Homework.Users.User
   alias Homework.Companies.Company
+  alias Homework.Transactions.ConvertedAmount
+
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "transactions" do
-    field(:amount, :integer)
+    field(:amount, ConvertedAmount)
     field(:credit, :boolean, default: false)
     field(:debit, :boolean, default: false) # TODO should one of these be default true?
     field(:description, :string)
@@ -22,7 +24,11 @@ defmodule Homework.Transactions.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:user_id, :amount, :debit, :description, :merchant_id, :company_id])
-    |> validate_required([:user_id, :amount, :debit, :description, :merchant_id, :company_id])
+    |> cast(attrs, [:user_id, :amount, :debit, :credit, :description, :merchant_id, :company_id])
+    |> validate_required([:user_id, :amount, :description, :merchant_id, :company_id])
+  end
+
+  def convert_amount_to_cents(transaction) when is_float(transaction.amount) do
+
   end
 end

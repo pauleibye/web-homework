@@ -20,7 +20,7 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
     field :create_company, :company do
       arg(:name, non_null(:string))
       arg(:credit_line, non_null(:float))
-      arg(:available_creidt, non_null(:float))
+      arg(:available_credit, non_null(:float))
 
       resolve(&CompaniesResolver.create_company/3)
     end
@@ -30,7 +30,7 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
       arg(:id, non_null(:id))
       arg(:name, non_null(:string))
       arg(:credit_line, non_null(:float))
-      arg(:available_creidt, non_null(:float))
+      arg(:available_credit, non_null(:float))
 
       resolve(&CompaniesResolver.update_company/3)
     end

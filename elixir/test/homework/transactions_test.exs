@@ -39,7 +39,7 @@ defmodule Homework.TransactionsTest do
         })
 
       valid_attrs = %{
-        amount: 42,
+        amount: 0.42,
         credit: true,
         debit: true,
         description: "some description",
@@ -49,7 +49,7 @@ defmodule Homework.TransactionsTest do
       }
 
       update_attrs = %{
-        amount: 43,
+        amount: 0.43,
         credit: false,
         debit: false,
         description: "some updated description",
@@ -105,7 +105,7 @@ defmodule Homework.TransactionsTest do
       user1: user1
     } do
       assert {:ok, %Transaction{} = transaction} = Transactions.create_transaction(valid_attrs)
-      assert transaction.amount == 42
+      assert transaction.amount == 0.42
       assert transaction.credit == false
       assert transaction.debit == true
       assert transaction.description == "some description"
@@ -130,7 +130,7 @@ defmodule Homework.TransactionsTest do
       assert {:ok, %Transaction{} = transaction} =
                Transactions.update_transaction(transaction, update_attrs)
 
-      assert transaction.amount == 43
+      assert transaction.amount == 0.43
       assert transaction.credit == false
       assert transaction.debit == false
       assert transaction.description == "some updated description"
@@ -170,7 +170,7 @@ defmodule Homework.TransactionsTest do
 
     test "get_transactions_amount_range/? returns transactions within parameter amount range", %{valid_attrs: valid_attrs} do
       transaction = transaction_fixture(valid_attrs)
-      assert [transaction] = Transactions.get_transactions_amount_range(40, 43)
+      assert [transaction] = Transactions.get_transactions_amount_range(0.40, 0.43)
     end
   end
 end

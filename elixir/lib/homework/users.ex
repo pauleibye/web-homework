@@ -42,9 +42,9 @@ defmodule Homework.Users do
 
   # TODO test (one and multiple) and doc
   def get_users_where_name!(first_name, last_name) do
-    query = from m in Users,
-                 where: m.first_name == ^first_name,
-                 where: m.last_name == ^last_name
+    query = from u in Users,
+      where: u.first_name == ^first_name,
+      where: u.last_name == ^last_name
     Repo.all(query)
   end
 

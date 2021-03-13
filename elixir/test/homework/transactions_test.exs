@@ -1,16 +1,18 @@
 defmodule Homework.TransactionsTest do
-  import DateTime
   use Homework.DataCase
 
-  alias Ecto.UUID
   alias Homework.Merchants
   alias Homework.Transactions
   alias Homework.Users
+  alias Homework.Companies
 
   describe "transactions" do
     alias Homework.Transactions.Transaction
 
     setup do
+      {:ok, company1} =
+        Companies.create_company(%{name: "some company_name", credit_line: 100.0, available_credit: 100.0})
+
       {:ok, merchant1} =
         Merchants.create_merchant(%{description: "some description", name: "some name"})
 
@@ -24,14 +26,16 @@ defmodule Homework.TransactionsTest do
         Users.create_user(%{
           dob: "some dob",
           first_name: "some first_name",
-          last_name: "some last_name"
+          last_name: "some last_name",
+          company_id: company1.id
         })
 
       {:ok, user2} =
         Users.create_user(%{
           dob: "some updated dob",
           first_name: "some updated first_name",
-          last_name: "some updated last_name"
+          last_name: "some updated last_name",
+          company_id: company1.id
         })
 
       valid_attrs = %{
@@ -40,7 +44,8 @@ defmodule Homework.TransactionsTest do
         debit: true,
         description: "some description",
         merchant_id: merchant1.id,
-        user_id: user1.id
+        user_id: user1.id,
+        company_id: user1.company_id
       }
 
       update_attrs = %{
@@ -49,7 +54,8 @@ defmodule Homework.TransactionsTest do
         debit: false,
         description: "some updated description",
         merchant_id: merchant2.id,
-        user_id: user2.id
+        user_id: user2.id,
+        company_id: user2.company_id
       }
 
       invalid_attrs = %{
@@ -58,7 +64,8 @@ defmodule Homework.TransactionsTest do
         debit: nil,
         description: nil,
         merchant_id: nil,
-        user_id: nil
+        user_id: nil,
+        company_id: nil
       }
 
       {:ok,
@@ -84,7 +91,6 @@ defmodule Homework.TransactionsTest do
 
     test "list_transactions/1 returns all transactions", %{valid_attrs: valid_attrs} do
       transaction = transaction_fixture(valid_attrs)
-      IO.inspect(transaction)
       assert Transactions.list_transactions([]) == [transaction]
     end
 

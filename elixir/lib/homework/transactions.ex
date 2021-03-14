@@ -4,6 +4,7 @@ defmodule Homework.Transactions do
   """
 
   import Ecto.Query, warn: false
+  import Paginator
   alias Homework.Repo
 
   alias Homework.Transactions.Transaction
@@ -19,6 +20,10 @@ defmodule Homework.Transactions do
   """
   def list_transactions(_args) do
     Repo.all(Transaction)
+  end
+
+  def list_transactions_paginated(_args, limit, skip) do
+    Paginator.paginate((from t in Transaction), limit, skip)
   end
 
   @doc """

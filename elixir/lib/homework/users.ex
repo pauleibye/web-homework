@@ -4,11 +4,10 @@ defmodule Homework.Users do
   """
 
   import Homework.FuzzySearchHelper
-#  alias Homework.FuzzySearchHelper, as: FSH
-
   import Ecto.Query, warn: false
   alias Homework.Repo
   alias Homework.Users.User
+  import Paginator
 
   @doc """
   Returns the list of users.
@@ -21,6 +20,10 @@ defmodule Homework.Users do
   """
   def list_users(_args) do
     Repo.all(User)
+  end
+
+  def list_users_paginated(_args, limit, skip) do
+    Paginator.paginate((from u in User), limit, skip)
   end
 
   @doc """
@@ -46,6 +49,7 @@ defmodule Homework.Users do
       where: u.last_name == ^last_name
     Repo.all(query)
   end
+
 
   # TODO doc stuff
   def get_users_fuzzy(to_query, fuzziness) do

@@ -22,6 +22,7 @@ defmodule Homework.Companies do
   """
   def list_companies(_args) do
     Repo.all(Company)
+    |> Company.fill_virtual_fields()
   end
 
   @doc """
@@ -38,11 +39,11 @@ defmodule Homework.Companies do
       ** (Ecto.NoResultsError)
 
   """
-  def get_company!(id), do: Repo.get!(Company, id)
+  def get_company!(id), do: Repo.get!(Company, id) |> Company.fill_virtual_fields()
 
   # TODO test (one and multiple) and doc
   def get_companies_where_name!(name) do
-    query = from c in Companies,
+    query = from c in Company,
       where: c.name == ^name
     Repo.all(query)
   end
@@ -57,6 +58,8 @@ defmodule Homework.Companies do
                     levenshtein(c.name, ^to_query)
 
     Repo.all(query)
+    |> Company.fill_virtual_fields()
+
   end
 
   @doc """

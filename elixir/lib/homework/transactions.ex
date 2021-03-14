@@ -50,6 +50,9 @@ defmodule Homework.Transactions do
   end
 
   # TODO doc
+  # When I added the ecto type for converted amounts I expected to need to convert min and max in this query.
+  # I was surprised to find out that ecto will convert the min and max based on my defined dump methods, so I don't need
+  #   to have multiple conversion methods - super cool!
   def get_transactions_amount_range(min, max) do
     query = from t in Transaction,
       where: t.amount >= ^min,

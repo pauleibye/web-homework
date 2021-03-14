@@ -4,14 +4,15 @@
 defmodule Homework.Companies.Company do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, warn: false
+  alias Homework.Repo
+  alias Homework.Transactions.Transaction
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "companies" do
     field(:name, :string)
     field(:credit_line, :float)
-    # TODO not so sure about having a continuously generated field present in a static record
-    # TODO  might want to move this out to it's own table
-    field(:available_credit, :float)
+    field(:available_credit, :float, virtual: true)
 
     timestamps()
   end
@@ -19,7 +20,19 @@ defmodule Homework.Companies.Company do
   @doc false
   def changeset(company, attrs) do
     company
-    |> cast(attrs, [:name, :credit_line, :available_credit])
-    |> validate_required([:name, :credit_line, :available_credit])
+    |> cast(attrs, [:name, :credit_line])
+    |> validate_required([:name, :credit_line])
+#    |> foreign_key_constraint(:companies, name: :users_company_id_fkey, message: "user exists in company")
+  end
+
+  def fill_virtual_fields(list) when is_list(list) do
+    Enum.map(list, fn c -> fill_virtual_fields(c) end)
+  end
+
+  def fill_virtual_fields(company) do
+    # available_credit` is the company `credit_line` minus the total amount of `transactions`
+    query = from t in Transaction,
+      where: t.company_id == ^company.id
+    %{company | available_credit: company.credit_line - (Repo.aggregate(query, :sum, :amount) * 100)}
   end
 end

@@ -10,7 +10,7 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
     field(:id, non_null(:id))
     field(:name, :string)
     field(:credit_line, :float)
-    field(:available_credit, :float)
+#    field(:available_credit, :float)
     field(:inserted_at, :naive_datetime)
     field(:updated_at, :naive_datetime)
   end
@@ -20,7 +20,6 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
     field :create_company, :company do
       arg(:name, non_null(:string))
       arg(:credit_line, non_null(:float))
-      arg(:available_credit, non_null(:float))
 
       resolve(&CompaniesResolver.create_company/3)
     end
@@ -30,7 +29,6 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
       arg(:id, non_null(:id))
       arg(:name, non_null(:string))
       arg(:credit_line, non_null(:float))
-      arg(:available_credit, non_null(:float))
 
       resolve(&CompaniesResolver.update_company/3)
     end

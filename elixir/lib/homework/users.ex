@@ -8,7 +8,6 @@ defmodule Homework.Users do
 
   import Ecto.Query, warn: false
   alias Homework.Repo
-
   alias Homework.Users.User
 
   @doc """
@@ -42,7 +41,7 @@ defmodule Homework.Users do
 
   # TODO test (one and multiple) and doc
   def get_users_where_name!(first_name, last_name) do
-    query = from u in Users,
+    query = from u in User,
       where: u.first_name == ^first_name,
       where: u.last_name == ^last_name
     Repo.all(query)

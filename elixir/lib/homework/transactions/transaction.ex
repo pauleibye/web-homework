@@ -11,7 +11,7 @@ defmodule Homework.Transactions.Transaction do
   schema "transactions" do
     field(:amount, ConvertedAmount)
     field(:credit, :boolean, default: false)
-    field(:debit, :boolean, default: false) # TODO create custom ecto type for enum payment types and migrate credit and debit columns out
+    field(:debit, :boolean, default: false) # TODO QUESTION would it be better to create a custom ecto type for enum payment types and migrate credit and debit columns out?
     field(:description, :string)
 
     belongs_to(:merchant, Merchant, type: :binary_id, foreign_key: :merchant_id)

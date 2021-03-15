@@ -50,7 +50,15 @@ defmodule Homework.Companies do
     Repo.all(query)
   end
 
-  # TODO doc stuff
+  @doc """
+  Gets all companies that have a provided or higher levenshtein fuzziness
+
+  ## Examples
+
+      iex> get_companies_fuzzy("paul", 5)
+      [%Company{...name: "paulco"...}]
+
+  """
   def get_companies_fuzzy(to_query, fuzziness) do
     # TODO call levenshtein function once and store as a row, then use to order (rather than 4 calls), then map to company
     query = from c in Company,

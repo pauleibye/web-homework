@@ -6,8 +6,9 @@ defmodule Homework.MerchantsResolverTest do
   alias Homework.Merchants.Merchant
   alias HomeworkWeb.Resolvers.MerchantsResolver
 
+  # TODO question: should these integration tests be up a level (json http request tests)?
   describe "merchants_resolver" do
-    # TODO fix warnings coming from this test, related to syntax stuff
+    # TODO fix warnings coming from this test, related to syntax
     test "get all merchants" do
       {:ok, %Merchant{} = merchant_before} = MerchantsResolver.create_merchant(nil, %{description: "some description", name: "some name"}, %{})
       assert {:ok, [%Merchant{}] = merchants} = MerchantsResolver.merchants(nil, nil, %{})

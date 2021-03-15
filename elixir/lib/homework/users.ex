@@ -50,7 +50,6 @@ defmodule Homework.Users do
     Repo.all(query)
   end
 
-
   @doc """
   Gets all users that have a provided or higher levenshtein fuzziness.
   Users chosen by first_name and last_name fuzziness

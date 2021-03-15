@@ -9,9 +9,11 @@ defmodule Homework.Transactions.Transaction do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "transactions" do
+    # question: can amounts be negative if we have credit and debit fields?
     field(:amount, ConvertedAmount)
     # assuming that these are credit (amount increase) and debit (amount decrease), rather than using a credit or debit card for the transaction
-    # TODO possible solutions:
+    # question: is there a use case for having both debit and credit fields?
+    # TODO possible changes for discussion:
     #   migrate credit and debit to be ConvertedAmount (scalar),
     #   merge fields into a single "transaction type" (enum?),
     #   remove credit and debit fields altogether and have positive values be credits and negative values debits

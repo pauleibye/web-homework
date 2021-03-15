@@ -10,8 +10,13 @@ defmodule Homework.Transactions.Transaction do
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "transactions" do
     field(:amount, ConvertedAmount)
+    # assuming that these are credit (amount increase) and debit (amount decrease), rather than using a credit or debit card for the transaction
+    # TODO possible solutions:
+    #   migrate credit and debit to be ConvertedAmount (scalar),
+    #   merge fields into a single "transaction type" (enum?),
+    #   remove credit and debit fields altogether and have positive values be credits and negative values debits
     field(:credit, :boolean, default: false)
-    field(:debit, :boolean, default: false) # TODO QUESTION would it be better to create a custom ecto type for enum payment types and migrate credit and debit columns out?
+    field(:debit, :boolean, default: false)
     field(:description, :string)
 
     belongs_to(:merchant, Merchant, type: :binary_id, foreign_key: :merchant_id)

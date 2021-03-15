@@ -48,6 +48,7 @@ defmodule Homework.Companies do
     query = from c in Company,
       where: c.name == ^name
     Repo.all(query)
+    |> Company.fill_virtual_fields()
   end
 
   @doc """

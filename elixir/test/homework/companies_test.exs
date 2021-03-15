@@ -57,7 +57,7 @@ defmodule Homework.CompaniesTest do
 
     test "get_companies_where_name/1 returns the company with the exact name" do
       company = company_fixture()
-      assert Companies.get_companies_where_name("some name") == [company]
+      assert Companies.get_companies_where_name("some company_name") == [company]
     end
 
     test "create_company/1 with valid data creates a company" do

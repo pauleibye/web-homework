@@ -12,6 +12,13 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
   end
 
   @doc """
+  Get a list of transactions with amount between min and max
+  """
+  def search_by_amount(_root, %{min: min, max: max}, _info) do
+    {:ok, Transactions.get_transactions_amount_range(min, max)}
+  end
+
+  @doc """
   Get the user associated with a transaction
   """
   def user(_root, _args, %{source: %{user_id: user_id}}) do

@@ -42,7 +42,9 @@ defmodule Homework.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
-  # TODO test (one and multiple) and doc
+  @doc """
+  Gets all users with exact matching first and last name
+  """
   def get_users_where_name(first_name, last_name) do
     query = from u in User,
       where: u.first_name == ^first_name,

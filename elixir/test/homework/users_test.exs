@@ -102,7 +102,9 @@ defmodule Homework.UsersTest do
 
     test "get_users_fuzzy/return users within a levenshtein distance based on first and last name", %{valid_attrs: valid_attrs} do
       user = user_fixture(valid_attrs)
-      assert [user] == Users.get_users_fuzzy("some first_name", 5)
+      user2 = user_fixture(%{valid_attrs | first_name: "some other first_name"})
+      assert [user, user2] == Users.get_users_fuzzy("some first_name", 5) # a bit fuzzier, so both users names found
+      assert [user] == Users.get_users_fuzzy("some first_name", 1) # fuzziness threshold is lower, so only exact match found
     end
   end
 end

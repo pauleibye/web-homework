@@ -63,5 +63,13 @@ defmodule HomeworkWeb.Schemas.TransactionsSchema do
 
       resolve(&TransactionsResolver.delete_transaction/3)
     end
+
+    @desc "get all transactions between a min and max amount"
+    field :search_by_amount_transaction, list_of(:transaction) do
+      arg(:min, :integer)
+      arg(:max, :integer)
+
+      resolve(&TransactionsResolver.search_by_amount/3)
+    end
   end
 end

@@ -39,16 +39,26 @@ defmodule Homework.Merchants do
   """
   def get_merchant!(id), do: Repo.get!(Merchant, id)
 
-  # TODO test (one and multiple) and doc
-  def get_merchants_where_name!(name) do
+  @doc """
+  Gets all merchants with exact matching field name
+  """
+  def get_merchants_where_name(name) do
     query = from m in Merchant,
       where: m.name == ^name
     Repo.all(query)
   end
 
-  # TODO doc stuff
+  @doc """
+  Gets all merchants that have a provided or higher levenshtein fuzziness
+
+  ## Examples
+
+      iex> get_merchants_fuzzy("paul", 5)
+      [%Merchant{...name: "paulco"...}]
+
+  """
   def get_merchants_fuzzy(to_query, fuzziness) do
-    # TODO call levenshtein function once and store as a row, then use to order (rather than 2 calls), then map to user
+    # TODO call levenshtein function once and store as a view, then use to order (rather than 2 calls), then map to user
     query = from m in Merchant,
                  where: levenshtein(m.name, ^to_query, ^fuzziness),
                  order_by: levenshtein(m.name, ^to_query)

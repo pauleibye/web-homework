@@ -4,7 +4,7 @@ defmodule Homework.PaginatorTest do
   alias Homework.Merchants.Merchant
   import Ecto.Query, warn: false
 
-  # TODO tests for paginator
+  # TODO edge case tests for paginator
   describe "paginator" do
 
     setup do
@@ -12,7 +12,7 @@ defmodule Homework.PaginatorTest do
         Merchants.create_merchant(%{description: "some description", name: "some name"})
       end)
       Merchants.create_merchant(%{description: "the one", name: "the only"})
-      {:ok, %{merchants: Merchants.get_merchants_where_name!("the only")}}
+      {:ok, %{merchants: Merchants.get_merchants_where_name("the only")}}
     end
 
     test "paginate happy path", %{merchants: merchants} do

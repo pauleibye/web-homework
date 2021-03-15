@@ -5,9 +5,9 @@ defmodule Homework.Users do
 
   import Homework.FuzzySearchHelper
   import Ecto.Query, warn: false
+  import Paginator
   alias Homework.Repo
   alias Homework.Users.User
-  import Paginator
 
   @doc """
   Returns the list of users.
@@ -43,7 +43,7 @@ defmodule Homework.Users do
   def get_user!(id), do: Repo.get!(User, id)
 
   # TODO test (one and multiple) and doc
-  def get_users_where_name!(first_name, last_name) do
+  def get_users_where_name(first_name, last_name) do
     query = from u in User,
       where: u.first_name == ^first_name,
       where: u.last_name == ^last_name
@@ -51,7 +51,16 @@ defmodule Homework.Users do
   end
 
 
-  # TODO doc stuff
+  @doc """
+  Gets all users that have a provided or higher levenshtein fuzziness.
+  Users chosen by first_name and last_name fuzziness
+
+  ## Examples
+
+      iex> get_users_fuzzy("paul", 5)
+      [%User{...first_name: "paul", last_name: "andersen"...}]
+
+  """
   def get_users_fuzzy(to_query, fuzziness) do
     # TODO call levenshtein function once and store as a row, then use to order (rather than 4 calls), then map to user
     query = from u in User,

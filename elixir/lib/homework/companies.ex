@@ -41,8 +41,10 @@ defmodule Homework.Companies do
   """
   def get_company!(id), do: Repo.get!(Company, id) |> Company.fill_virtual_fields()
 
-  # TODO test (one and multiple) and doc
-  def get_companies_where_name!(name) do
+  @doc """
+  Gets all merchants with exact matching field name
+  """
+  def get_companies_where_name(name) do
     query = from c in Company,
       where: c.name == ^name
     Repo.all(query)

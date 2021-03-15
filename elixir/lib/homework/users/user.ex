@@ -4,7 +4,6 @@ defmodule Homework.Users.User do
   alias Homework.Companies.Company
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  # TODO add foreign key to user for company
   schema "users" do
     field(:dob, :string)
     field(:first_name, :string)
